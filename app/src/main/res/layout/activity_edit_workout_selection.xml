@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    android:fontFamily="@font/aldrich">
+
+
+    <ListView
+        android:id="@+id/listView_Workout_edit"
+        android:layout_width="361dp"
+        android:layout_height="464dp"
+        android:layout_marginBottom="189dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </ListView>
+
+    <ImageButton
+        android:id="@+id/add_button"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_marginStart="292dp"
+        android:layout_marginTop="599dp"
+        android:layout_marginEnd="44dp"
+        android:layout_marginBottom="57dp"
+        android:background="@drawable/ic_baseline_add_circle_24"
+        android:onClick="goToCreateWorkout"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
