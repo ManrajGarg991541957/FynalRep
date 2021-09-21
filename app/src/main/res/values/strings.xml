@@ -45,5 +45,6 @@
     <string name="continue_with_google">Continue With Google</string>
     <string name="or">OR</string>
     <string name="sign_up">Sign UP</string>
+    <string name="WaitForVoiceAssistant">Wait for Voice Assistant</string>
 
 </resources>

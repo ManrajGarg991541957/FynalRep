@@ -1,6 +1,8 @@
 package org.vosk.demo;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -13,7 +15,10 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -58,10 +63,13 @@ public class WorkoutListen extends AppCompatActivity implements RecognitionListe
     // Kaldi speech model and speechService Objects needed for Vosk to work
     private Model model;
     private SpeechService speechService;
+    private SpeechStreamService speechStreamService;
 
     DatabaseReference reference, newref;
     DatabaseReference newReference;
 
+    /* Used to handle permission request */
+    private static final int PERMISSIONS_REQUEST_RECORD_AUDIO = 1;
 
     ArrayAdapter<String> arrayAdapterExercises;
 
@@ -135,14 +143,54 @@ public class WorkoutListen extends AppCompatActivity implements RecognitionListe
         printProgress();
 
         setUiState(STATE_START);
-        findViewById(R.id.button_begin_workout).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                recognizeMicrophone();
+        findViewById(R.id.button_begin_workout).setOnClickListener(view -> recognizeMicrophone());
+
+        // Check if user has given permission to record audio, init the model after permission is granted
+        int permissionCheck = ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.RECORD_AUDIO);
+        if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO}, PERMISSIONS_REQUEST_RECORD_AUDIO);
+        } else {
+            initModel();
+        }
+    }
+    private void initModel() {
+        StorageService.unpack(this, "model-en-us", "model",
+                (model) -> {
+                    this.model = model;
+                    setUiState(STATE_READY);
+                },
+                (exception) -> setErrorState("Failed to unpack the model" + exception.getMessage()));
+    }
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (requestCode == PERMISSIONS_REQUEST_RECORD_AUDIO) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Recognizer initialization is a time-consuming and it involves IO,
+                // so we execute it in async task
+                initModel();
+            } else {
+                finish();
             }
-        });
+        }
+    }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
 
+        if (speechService != null) {
+            speechService.stop();
+            speechService.shutdown();
+        }
+
+        if (speechStreamService != null) {
+            speechStreamService.stop();
+        }
     }
 
     private void setUiState(int state) {
@@ -152,6 +200,7 @@ public class WorkoutListen extends AppCompatActivity implements RecognitionListe
                 workoutResult.setMovementMethod(new ScrollingMovementMethod());
                 text1.setMovementMethod(new ScrollingMovementMethod());
                 text2.setMovementMethod(new ScrollingMovementMethod());
+                ((Button) findViewById(R.id.button_begin_workout)).setText(R.string.WaitForVoiceAssistant);
                 break;
             case STATE_READY:
                 ((Button) findViewById(R.id.button_begin_workout)).setText(R.string.begin_workout);
