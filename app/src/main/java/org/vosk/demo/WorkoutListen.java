@@ -58,6 +58,7 @@ public class WorkoutListen extends AppCompatActivity implements RecognitionListe
     // Strings for detecting keywords
     private final String keywordPauseWorkout = "pause";
     private final String keywordSetCompleted = "complete";
+    private final String keywordResumeWorkout = "resume";
     private String userInput;
 
     // Kaldi speech model and speechService Objects needed for Vosk to work
@@ -268,8 +269,12 @@ public class WorkoutListen extends AppCompatActivity implements RecognitionListe
     //Todo: Make function to increment count on reps
     public void keyWordFound(String userInput, String keywordPauseWorkout, String keywordSetCompleted) {
         if (userInput.equals(keywordPauseWorkout)) {
-            //startTimer();
-        } else if (userInput.equals(keywordSetCompleted)){
+            stopTimer();
+        }
+        else if (userInput.equals(keywordResumeWorkout)){
+            startTimer();
+        }
+            else if (userInput.equals(keywordSetCompleted)){
             countProgress();
             mTimeLeftInMillis = (20000);
             startTimer();
