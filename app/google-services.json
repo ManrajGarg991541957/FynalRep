@@ -1,0 +1,69 @@
+{
+  "project_info": {
+    "project_number": "1084996706633",
+    "firebase_url": "https://fynalrepcapstone-default-rtdb.firebaseio.com",
+    "project_id": "fynalrepcapstone",
+    "storage_bucket": "fynalrepcapstone.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1084996706633:android:22a3d53bcda7ffcd1aba98",
+        "android_client_info": {
+          "package_name": "fynalRep.capstone.sheridan"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1084996706633-csfeol84n1td26gbrq7ra9lngvonemvr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBOtwaGbVrFMk8YTA1mfMCls6L2J4GbKP8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1084996706633-csfeol84n1td26gbrq7ra9lngvonemvr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1084996706633:android:558e2a68879aae041aba98",
+        "android_client_info": {
+          "package_name": "org.vosk.demo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1084996706633-csfeol84n1td26gbrq7ra9lngvonemvr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBOtwaGbVrFMk8YTA1mfMCls6L2J4GbKP8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1084996706633-csfeol84n1td26gbrq7ra9lngvonemvr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
