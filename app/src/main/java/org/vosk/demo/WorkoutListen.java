@@ -210,7 +210,8 @@ public class WorkoutListen extends AppCompatActivity implements RecognitionListe
                 ((Button) findViewById(R.id.button_begin_workout)).setText(R.string.begin_workout);
                 break;
             case STATE_MIC:
-                ((Button) findViewById(R.id.button_begin_workout)).setText(R.string.stop_microphone);
+                ((Button) findViewById(R.id.button_begin_workout)).setText(R.string.stop_workout);
+                ((Button) findViewById(R.id.button_begin_workout)).setText(R.string.stop_workout);
                 findViewById(R.id.button_begin_workout).setEnabled(true);
                 break;
         }
@@ -227,6 +228,7 @@ public class WorkoutListen extends AppCompatActivity implements RecognitionListe
             setUiState(STATE_DONE);
             speechService.cancel();
             speechService = null;
+            resetWorkout();
         } else {
             setUiState(STATE_MIC);
             try {
@@ -321,6 +323,12 @@ public class WorkoutListen extends AppCompatActivity implements RecognitionListe
 
     private void stopTimer(){
         mCountDownTimer.cancel();
+    }
+
+    private void resetWorkout() {
+        workoutResult2.setText("");
+        mTextViewCountDown.setText("");
+        stopTimer();
     }
 
     private void countProgress() {
