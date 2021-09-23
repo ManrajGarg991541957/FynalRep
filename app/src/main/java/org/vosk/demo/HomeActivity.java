@@ -49,8 +49,6 @@ public class HomeActivity extends AppCompatActivity {
                         menuItem.setChecked(true);
                         //close drawer when item is tapped
                         mDrawerLayout.closeDrawers();
-                        Toast.makeText(HomeActivity.this.getApplicationContext(), menuItem.getTitle(),
-                                Toast.LENGTH_LONG).show();
 
                         return true;
                     }
