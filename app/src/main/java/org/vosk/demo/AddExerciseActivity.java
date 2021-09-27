@@ -1,27 +1,19 @@
 package org.vosk.demo;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
 
-import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class AddExerciseActivity extends AppCompatActivity {
 
-    private DrawerLayout mDrawerLayout;
+
     FirebaseDatabase rootNode;
     DatabaseReference reference;
     EditText exerciseName, exerciseRep, exerciseSet, exerciseWeight;
@@ -43,55 +35,6 @@ public class AddExerciseActivity extends AppCompatActivity {
         Button addExercise;
         final String workoutName;
         final org.vosk.demo.Exercise exercise = new org.vosk.demo.Exercise();
-
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Fynal Rep");
-        toolbar.setTitleTextColor(Color.WHITE);
-
-        ActionBar actionbar = getSupportActionBar();
-        actionbar.setDisplayHomeAsUpEnabled(true);
-        actionbar.setHomeAsUpIndicator(R.drawable.ic_menu);
-
-        mDrawerLayout = findViewById(R.id.drawer_layout);
-
-        NavigationView navView = findViewById(R.id.nav_view);
-        navView.setNavigationItemSelectedListener(
-                new NavigationView.OnNavigationItemSelectedListener() {
-                    @Override
-                    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                        //set item as selected to persist highlight
-                        menuItem.setChecked(true);
-                        //close drawer when item is tapped
-                        mDrawerLayout.closeDrawers();
-
-                        return true;
-                    }
-                });
-
-        mDrawerLayout.addDrawerListener(
-                new DrawerLayout.DrawerListener() {
-                    @Override
-                    public void onDrawerSlide(View drawerView, float slideOffset) {
-
-                    }
-
-                    @Override
-                    public void onDrawerOpened(View drawerView) {
-                        // Respond when the drawer is opened
-                    }
-
-                    @Override
-                    public void onDrawerClosed(View drawerView) {
-                        // Respond when the drawer is closed
-                    }
-
-                    @Override
-                    public void onDrawerStateChanged(int newState) {
-                        // Respond when the drawer motion state changes
-                    }
-                }
-        );
 
         // grabbing string from previous activity
         if (savedInstanceState == null) {
@@ -137,17 +80,10 @@ public class AddExerciseActivity extends AppCompatActivity {
             }
         });
 
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                mDrawerLayout.openDrawer(GravityCompat.START);
-        }
-        return super.onOptionsItemSelected(item);
-    }
 
+
+    }
     public void callIntent(View view) {
 
     }
