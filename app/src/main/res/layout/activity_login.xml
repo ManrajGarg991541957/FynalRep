@@ -19,20 +19,20 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/reg_email_address"
+            android:id="@+id/login_username"
             android:layout_width="370dp"
             android:layout_height="50dp"
-            android:hint="@string/enter_email_address"
+            android:hint="@string/enter_username"
             android:textColorHint="@color/white">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:inputType="textPassword" />
+                android:inputType="text" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/reg_password"
+            android:id="@+id/login_password"
             android:layout_width="370dp"
             android:layout_height="50dp"
             android:hint="@string/enter_a_password"
@@ -41,7 +41,7 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:inputType="text" />
+                android:inputType="textPassword" />
         </com.google.android.material.textfield.TextInputLayout>
 
     </LinearLayout>
@@ -63,7 +63,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/button_login"
         android:layout_width="370dp"
         android:layout_height="50dp"
         android:layout_marginStart="20dp"

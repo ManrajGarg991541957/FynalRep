@@ -42,7 +42,6 @@ public class SignUpForm extends AppCompatActivity {
         regEmailAddress = findViewById(R.id.reg_email_address);
         regPassword = findViewById(R.id.reg_password);
         regCreateAcc = findViewById(R.id.reg_create_account_btn);
-        nextPage = findViewById(R.id.button_next_page);
 
         FirebaseApp.initializeApp(this);
         rootNode = FirebaseDatabase.getInstance();
@@ -78,18 +77,10 @@ public class SignUpForm extends AppCompatActivity {
                 user.setEmail(email);
                 user.setPassword(password);
 
-                reff.child(email).setValue(user);
+                reff.child(username).setValue(user);
                 Toast.makeText(SignUpForm.this, "User Account Created",  Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(SignUpForm.this, LoginActivity.class);
                 context.startActivity(intent);
-                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-            }
-        });
-
-        nextPage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(SignUpForm.this, WorkoutListen.class));
                 overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
             }
         });

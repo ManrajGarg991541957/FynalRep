@@ -47,5 +47,6 @@
     <string name="sign_up">Sign UP</string>
     <string name="WaitForVoiceAssistant">Wait for Voice Assistant</string>
     <string name="stop_workout">Stop Workout</string>
+    <string name="enter_username">Enter Username</string>
 
 </resources>
