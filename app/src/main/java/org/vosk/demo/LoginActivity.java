@@ -73,20 +73,31 @@ public class LoginActivity extends AppCompatActivity {
                 username = loginUsername.getEditText().getText().toString();
                 password = loginPassword.getEditText().getText().toString();
                 userReff = reff.child(username);
-                if(userReff.child("password").getKey().equals(password)){
-                    homePage(view);
-                } else {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+                Log.d("firebase", userReff.child("password").getKey());
+                userReff.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        if(dataSnapshot.child("password").getValue().equals(password)){
+                            homePage(view);
+                        } else {
+                            AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
 
 // 2. Chain together various setter methods to set the dialog characteristics
-                    builder.setMessage("Some of your information isn't correct. Please try again.")
-                            .setTitle("Invalid Credentials")
-                            .setNeutralButton(android.R.string.ok, null);
+                            builder.setMessage("Some of your information isn't correct. Please try again.")
+                                    .setTitle("Invalid Credentials")
+                                    .setNeutralButton(android.R.string.ok, null);
 
 // 3. Get the <code><a href="/reference/android/app/AlertDialog.html">AlertDialog</a></code> from <code><a href="/reference/android/app/AlertDialog.Builder.html#create()">create()</a></code>
-                    AlertDialog dialog = builder.create();
-                    dialog.show();
-                }
+                            AlertDialog dialog = builder.create();
+                            dialog.show();
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                    }
+                });
+
             }
 
 
