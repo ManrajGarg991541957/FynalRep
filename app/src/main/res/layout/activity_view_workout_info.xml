@@ -67,6 +67,16 @@
                         android:fontFamily="@font/aldrich"
                         android:text="Delete Workout"
                         android:textStyle="bold|italic" />
+
+                    <Button
+                        android:id="@+id/button_confirmation"
+                        android:layout_width="266dp"
+                        android:layout_height="29dp"
+                        android:layout_marginBottom="40dp"
+                        android:background="@drawable/rounded_corners"
+                        android:fontFamily="@font/aldrich"
+                        android:text="Save and Quit"
+                        android:textStyle="bold|italic" />
                 </LinearLayout>
 
                 <TextView
