@@ -1,17 +1,28 @@
 package org.vosk.demo;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -22,18 +33,26 @@ import java.util.ArrayList;
 
 public class CreateWorkoutActivity extends AppCompatActivity {
 
+    private DrawerLayout mDrawerLayout;
     private FirebaseUser user;
     private DatabaseReference reference;
 
     private String userID;
 
-    private TextView customWorkout;
-    private Button button_delete_workout;
-    private Button button_add_exercise;
+    private TextView customWorkout, workoutTV;
+    private Button button_delete_workout, button_add_workout, button_add_exercise, button_save_workout;
+
 
     private DatabaseReference newref;
 
-    private TextView workoutTV;
+    private TextView ;
+    AlertDialog.Builder builder;
+    
+    private Button ;
+
+    private DatabaseReference newref;
+
+
 
     private ListView listView;
     private ArrayAdapter<String> arrayAdapter;
@@ -46,10 +65,61 @@ public class CreateWorkoutActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_workout_info);
 
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("Fynal Rep");
+        toolbar.setTitleTextColor(Color.WHITE);
 
+        ActionBar actionbar = getSupportActionBar();
+        actionbar.setDisplayHomeAsUpEnabled(true);
+        actionbar.setHomeAsUpIndicator(R.drawable.ic_menu);
+
+        mDrawerLayout = findViewById(R.id.drawer_layout);
+        button_save_workout = findViewById(R.id.button_confirmation);
         button_delete_workout = findViewById(R.id.button_delete_workout);
         button_add_exercise = findViewById(R.id.button_add_exercise);
         workoutTV = findViewById(R.id.workoutTV);
+        builder = new AlertDialog.Builder(this);
+
+        NavigationView navView = findViewById(R.id.nav_view);
+        navView.setNavigationItemSelectedListener(
+                new NavigationView.OnNavigationItemSelectedListener() {
+                    @Override
+                    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                        //set item as selected to persist highlight
+                        menuItem.setChecked(true);
+                        //close drawer when item is tapped
+                        mDrawerLayout.closeDrawers();
+                        Toast.makeText(CreateWorkoutActivity.this.getApplicationContext(), menuItem.getTitle(),
+                                Toast.LENGTH_LONG).show();
+
+                        return true;
+                    }
+                });
+
+        mDrawerLayout.addDrawerListener(
+                new DrawerLayout.DrawerListener() {
+                    @Override
+                    public void onDrawerSlide(View drawerView, float slideOffset) {
+
+                    }
+
+                    @Override
+                    public void onDrawerOpened(View drawerView) {
+                        // Respond when the drawer is opened
+                    }
+
+                    @Override
+                    public void onDrawerClosed(View drawerView) {
+                        // Respond when the drawer is closed
+                    }
+
+                    @Override
+                    public void onDrawerStateChanged(int newState) {
+                        // Respond when the drawer motion state changes
+                    }
+                }
+        );
 
         user = FirebaseAuth.getInstance().getCurrentUser();
         reference = FirebaseDatabase.getInstance().getReference("User");
@@ -123,6 +193,50 @@ public class CreateWorkoutActivity extends AppCompatActivity {
             }
         });
 
+        //save and confirm button
+        button_save_workout.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view)
+            {
+                builder.setMessage("Do you want to save the exercises to this workout?") .setTitle("Confirmation");
 
+                //Setting message manually and performing action on button click
+                builder.setMessage("Do you want to save the exercises to this workout?")
+                        .setCancelable(false)
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                finish();
+                                Toast.makeText(getApplicationContext(),"exercise(s) saved",
+                                        Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(CreateWorkoutActivity.this, EditWorkoutActivity.class);
+                                startActivity(intent);
+                            }
+                        })
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                //  Action for 'NO' Button
+                                dialog.cancel();
+                                Toast.makeText(getApplicationContext(),"Continue editing workout",
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                //Creating dialog box
+                AlertDialog alert = builder.create();
+                //Setting the title manually
+                alert.setTitle("Confirmation");
+                alert.show();
+            }
+        });
+
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                mDrawerLayout.openDrawer(GravityCompat.START);
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

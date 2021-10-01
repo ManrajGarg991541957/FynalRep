@@ -8,66 +8,120 @@
     android:fontFamily="@font/aldrich"
     tools:context=".CreateWorkoutActivity">
 
-
-    <ListView
-        android:id="@+id/listView_workout_exercises"
-        android:layout_width="346dp"
-        android:layout_height="328dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="154dp"
-        android:layout_marginEnd="33dp"
-        android:layout_marginBottom="249dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <LinearLayout
+    <androidx.drawerlayout.widget.DrawerLayout
+        android:id="@+id/drawer_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginTop="527dp"
-        android:gravity="center_horizontal"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true">
 
-        <Button
-            android:id="@+id/button_add_exercise"
-            android:layout_width="370dp"
-            android:layout_height="60dp"
-            android:layout_marginBottom="25dp"
-            android:background="@drawable/rounded_corners"
-            android:fontFamily="@font/aldrich"
-            android:text="Add Exercise"
-            android:textStyle="bold|italic" />
+        <!-- Layout to contain contents of main body of screen (drawer will slide over this) -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-        <Button
-            android:id="@+id/button_delete_workout"
-            android:layout_width="370dp"
-            android:layout_height="60dp"
-            android:layout_marginBottom="60dp"
-            android:background="@drawable/rounded_corners"
-            android:fontFamily="@font/aldrich"
-            android:text="Delete Workout"
-            android:textStyle="bold|italic" />
-    </LinearLayout>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/workoutTV"
-        android:layout_width="325dp"
-        android:layout_height="62dp"
-        android:layout_marginTop="75dp"
-        android:fontFamily="@font/aldrich"
-        android:textColor="@color/white"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.348"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+                <ListView
+                    android:id="@+id/listView_workout_exercises"
+                    android:layout_width="346dp"
+                    android:layout_height="328dp"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginTop="154dp"
+                    android:layout_marginEnd="33dp"
+                    android:layout_marginBottom="249dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginTop="527dp"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <Button
+                        android:id="@+id/button_add_exercise"
+                        android:layout_width="266dp"
+                        android:layout_height="29dp"
+                        android:layout_marginBottom="25dp"
+                        android:background="@drawable/rounded_corners"
+                        android:fontFamily="@font/aldrich"
+                        android:text="Add Exercise"
+                        android:textStyle="bold|italic" />
+
+                    <Button
+                        android:id="@+id/button_delete_workout"
+                        android:layout_width="266dp"
+                        android:layout_height="29dp"
+                        android:layout_marginBottom="25dp"
+                        android:background="@drawable/rounded_corners"
+                        android:fontFamily="@font/aldrich"
+                        android:text="Delete Workout"
+                        android:textStyle="bold|italic" />
+
+                    <Button
+                        android:id="@+id/button_confirmation"
+                        android:layout_width="266dp"
+                        android:layout_height="29dp"
+                        android:layout_marginBottom="40dp"
+                        android:background="@drawable/rounded_corners"
+                        android:fontFamily="@font/aldrich"
+                        android:text="Save and Quit"
+                        android:textStyle="bold|italic" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/workoutTV"
+                    android:layout_width="325dp"
+                    android:layout_height="62dp"
+                    android:layout_marginTop="75dp"
+                    android:fontFamily="@font/aldrich"
+                    android:textColor="@color/white"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.348"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </RelativeLayout>
+
+        <FrameLayout
+            android:id="@+id/content_frame"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@color/colorPrimaryDark" />
+
+        </FrameLayout>
+
+        <!-- Container for contents of drawer - use NavigationView to make configuration easier -->
+        <com.google.android.material.navigation.NavigationView
+            android:id="@+id/nav_view"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:fitsSystemWindows="true"
+            app:headerLayout="@layout/nav_header"
+            app:menu="@menu/drawer_menu" />
+
+    </androidx.drawerlayout.widget.DrawerLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

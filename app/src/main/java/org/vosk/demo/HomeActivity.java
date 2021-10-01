@@ -158,7 +158,7 @@ public class HomeActivity extends AppCompatActivity {
         Intent intent = null;
         switch (view.getId()) {
             case R.id.button_select_workout:
-                intent = new Intent(this, org.vosk.demo.EditWorkoutActivity.class);
+                intent = new Intent(this, EditWorkoutActivity.class);
                 startActivity(intent);
                 overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                 break;

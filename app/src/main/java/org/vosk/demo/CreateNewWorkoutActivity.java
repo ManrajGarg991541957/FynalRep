@@ -1,5 +1,7 @@
 package org.vosk.demo;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -7,6 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -22,14 +25,17 @@ import java.util.ArrayList;
 
 public class CreateNewWorkoutActivity extends AppCompatActivity {
 
+    private TextView customWorkout, workoutTV;
+    private Button button_delete_workout, button_add_exercise, button_save_workout;
+
+
+    private DatabaseReference reference, newref;
+
+    AlertDialog.Builder builder;
     private FirebaseUser user;
 
     private String userID;
 
-    private TextView customWorkout, workoutTV;
-    private Button button_delete_workout, button_add_exercise;
-
-    private DatabaseReference reference, newref;
 
     private ListView listView;
     private ArrayAdapter<String> arrayAdapter;
@@ -40,10 +46,11 @@ public class CreateNewWorkoutActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_workout_info);
 
-
+        button_save_workout = findViewById(R.id.button_confirmation);
         button_delete_workout = findViewById(R.id.button_delete_workout);
         button_add_exercise = findViewById(R.id.button_add_exercise);
         workoutTV = findViewById(R.id.workoutTV);
+        builder = new AlertDialog.Builder(this);
 
         user = FirebaseAuth.getInstance().getCurrentUser();
         userID = user.getUid();
@@ -119,6 +126,41 @@ public class CreateNewWorkoutActivity extends AppCompatActivity {
 
                 startActivity(intent);
                 overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+            }
+        });
+
+        //save and confirm button
+        button_save_workout.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view)
+            {
+                builder.setMessage("Do you want to save the exercises to this workout?") .setTitle("Confirmation");
+
+                //Setting message manually and performing action on button click
+                builder.setMessage("Do you want to save the exercises to this workout?")
+                        .setCancelable(false)
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                finish();
+                                Toast.makeText(getApplicationContext(),"exercise(s) saved",
+                                        Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(CreateNewWorkoutActivity.this, EditWorkoutActivity.class);
+                                startActivity(intent);
+                            }
+                        })
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                //  Action for 'NO' Button
+                                dialog.cancel();
+                                Toast.makeText(getApplicationContext(),"Continue editing workout",
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                //Creating dialog box
+                AlertDialog alert = builder.create();
+                //Setting the title manually
+                alert.setTitle("Confirmation");
+                alert.show();
             }
         });
 
