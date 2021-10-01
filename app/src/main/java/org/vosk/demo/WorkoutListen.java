@@ -285,7 +285,7 @@ public class WorkoutListen extends AppCompatActivity implements RecognitionListe
         }
             else if (userInput.equals(keywordSetCompleted)){
             countProgress();
-            mTimeLeftInMillis = (20000);
+            mTimeLeftInMillis = (30000);
             startTimer();
         }
     }
