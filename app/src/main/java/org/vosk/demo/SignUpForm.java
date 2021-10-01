@@ -3,31 +3,35 @@ package org.vosk.demo;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.FirebaseApp;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 public class SignUpForm extends AppCompatActivity {
 
     //Variables
-    private String mTag = "activity_sign_in_form";
-    TextInputLayout regUserName, regFullName, regEmailAddress, regPassword;
-    Button regCreateAcc, nextPage;
+    private String mTag = "activity_sign_up_form";
+    private TextInputLayout regFullName, regEmailAddress, regPassword;
+    private Button regCreateAcc;
+    private FirebaseAuth mAuth;
+    private ProgressBar progressBar;
     FirebaseDatabase rootNode;
     DatabaseReference reff;
     org.vosk.demo.User user;
-    long maxId = 0;
     final Context context = this;
 
     @Override
@@ -37,51 +41,90 @@ public class SignUpForm extends AppCompatActivity {
         setContentView(mTag);
 
         //Hooks to all xml elements in sign_in_form.xml
-        regUserName = findViewById(R.id.reg_username);
         regFullName = findViewById(R.id.reg_full_name);
         regEmailAddress = findViewById(R.id.reg_email_address);
         regPassword = findViewById(R.id.reg_password);
         regCreateAcc = findViewById(R.id.reg_create_account_btn);
 
+        progressBar = findViewById(R.id.progressBar);
+
+        mAuth = FirebaseAuth.getInstance();
+
         FirebaseApp.initializeApp(this);
         rootNode = FirebaseDatabase.getInstance();
         reff = rootNode.getReference().child("User");
-
-        reff.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.exists())
-                    maxId=snapshot.getChildrenCount();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
 
         regCreateAcc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                user = new org.vosk.demo.User();
+                String name = regFullName.getEditText().getText().toString().trim();
+                String email = regEmailAddress.getEditText().getText().toString().trim();
+                String password = regPassword.getEditText().getText().toString().trim();
 
+                if(name.isEmpty()){
+                    regFullName.getEditText().setError("Full name is required!");
+                    regFullName.requestFocus();
+                    return;
+                }
 
+                if(email.isEmpty()){
+                    regEmailAddress.getEditText().setError("Email is required!");
+                    regEmailAddress.requestFocus();
+                    return;
+                }
 
-                String username = regUserName.getEditText().getText().toString();
-                String name = regFullName.getEditText().getText().toString();
-                String email = regEmailAddress.getEditText().getText().toString();
-                String password = regPassword.getEditText().getText().toString();
-                user.setUserName(username);
-                user.setFirstName(name);
-                user.setEmail(email);
-                user.setPassword(password);
+                if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+                    regEmailAddress.getEditText().setError("Please provide a valid email address.");
+                    regEmailAddress.requestFocus();
+                    return;
+                }
 
-                reff.child(username).setValue(user);
-                Toast.makeText(SignUpForm.this, "User Account Created",  Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(SignUpForm.this, LoginActivity.class);
-                context.startActivity(intent);
-                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                if(password.isEmpty()){
+                    regPassword.getEditText().setError("Password is required!");
+                    regPassword.requestFocus();
+                    return;
+                }
+
+                if(password.length() < 6){
+                    regPassword.getEditText().setError("Min password length should be 6 characters.");
+                    regPassword.requestFocus();
+                    return;
+                }
+
+                progressBar.setVisibility(view.VISIBLE);
+                mAuth.createUserWithEmailAndPassword(email, password)
+                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+
+                                if(task.isSuccessful()){
+                                    User user = new User(name, email);
+
+                                    reff.child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                                            .setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+
+                                            if(task.isSuccessful()){
+                                                Toast.makeText(SignUpForm.this, "User has been registered successfully!", Toast.LENGTH_SHORT).show();
+                                                progressBar.setVisibility(View.GONE);
+                                                Intent intent = new Intent(SignUpForm.this, LoginActivity.class);
+                                                context.startActivity(intent);
+                                                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                                            }else{
+                                                Toast.makeText(SignUpForm.this, "Failed to register, try again.", Toast.LENGTH_SHORT).show();
+                                                progressBar.setVisibility(View.GONE);
+                                            }
+                                        }
+                                    });
+                                }else{
+                                    Toast.makeText(SignUpForm.this, "Failed to register, try again.", Toast.LENGTH_SHORT).show();
+                                    progressBar.setVisibility(View.GONE);
+                                }
+
+                            }
+                        });
             }
         });
     }

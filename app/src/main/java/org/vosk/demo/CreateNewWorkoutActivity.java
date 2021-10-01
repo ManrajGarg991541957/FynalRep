@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -20,20 +22,18 @@ import java.util.ArrayList;
 
 public class CreateNewWorkoutActivity extends AppCompatActivity {
 
-    private TextView customWorkout;
-    Button button_delete_workout;
-    Button button_add_workout;
-    Button button_add_exercise;
-    FirebaseDatabase rootNode;
-    DatabaseReference reference, newref;
-    DatabaseReference newReference;
-    TextView workoutTV;
+    private FirebaseUser user;
 
-    ListView listView;
-    ArrayAdapter<String> arrayAdapter;
-    ArrayList<String> arrayList = new ArrayList<>();
-    Intent intent = null;
+    private String userID;
 
+    private TextView customWorkout, workoutTV;
+    private Button button_delete_workout, button_add_exercise;
+
+    private DatabaseReference reference, newref;
+
+    private ListView listView;
+    private ArrayAdapter<String> arrayAdapter;
+    private ArrayList<String> arrayList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +44,11 @@ public class CreateNewWorkoutActivity extends AppCompatActivity {
         button_delete_workout = findViewById(R.id.button_delete_workout);
         button_add_exercise = findViewById(R.id.button_add_exercise);
         workoutTV = findViewById(R.id.workoutTV);
+
+        user = FirebaseAuth.getInstance().getCurrentUser();
+        userID = user.getUid();
+        reference = FirebaseDatabase.getInstance().getReference("User").child(userID).child("Workout");;
+
 
         String workoutNameTV;
         // grabbing string from previous activity
@@ -61,8 +66,6 @@ public class CreateNewWorkoutActivity extends AppCompatActivity {
         Intent intent = getIntent();
         workoutNameTV = intent.getStringExtra("workoutName");
         workoutTV.setText(workoutNameTV);
-
-        reference = FirebaseDatabase.getInstance().getReference().child("Workout");
 
         newref = reference.child(workoutNameTV).child("Exercises");
 
@@ -92,6 +95,10 @@ public class CreateNewWorkoutActivity extends AppCompatActivity {
                 customWorkout = findViewById(R.id.workoutTV);
                 String workoutName = customWorkout.getText().toString();
                 reference.child(workoutName).removeValue();
+                Intent intent = null;
+                intent = new Intent(CreateNewWorkoutActivity.this, EditWorkoutActivity.class);
+                startActivity(intent);
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
             }
         });
 

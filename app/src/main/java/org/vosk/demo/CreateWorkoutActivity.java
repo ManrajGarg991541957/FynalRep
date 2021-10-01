@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -20,19 +22,23 @@ import java.util.ArrayList;
 
 public class CreateWorkoutActivity extends AppCompatActivity {
 
-    private TextView customWorkout;
-    Button button_delete_workout;
-    Button button_add_workout;
-    Button button_add_exercise;
-    FirebaseDatabase rootNode;
-    DatabaseReference reference, newref;
-    DatabaseReference newReference;
-    TextView workoutTV;
+    private FirebaseUser user;
+    private DatabaseReference reference;
 
-    ListView listView;
-    ArrayAdapter<String> arrayAdapter;
-    ArrayList<String> arrayList = new ArrayList<>();
-    Intent intent = null;
+    private String userID;
+
+    private TextView customWorkout;
+    private Button button_delete_workout;
+    private Button button_add_exercise;
+
+    private DatabaseReference newref;
+
+    private TextView workoutTV;
+
+    private ListView listView;
+    private ArrayAdapter<String> arrayAdapter;
+    private ArrayList<String> arrayList = new ArrayList<>();
+
 
 
     @Override
@@ -44,6 +50,10 @@ public class CreateWorkoutActivity extends AppCompatActivity {
         button_delete_workout = findViewById(R.id.button_delete_workout);
         button_add_exercise = findViewById(R.id.button_add_exercise);
         workoutTV = findViewById(R.id.workoutTV);
+
+        user = FirebaseAuth.getInstance().getCurrentUser();
+        reference = FirebaseDatabase.getInstance().getReference("User");
+        userID = user.getUid();
 
         String workoutNameTV;
         // grabbing string from previous activity
@@ -62,9 +72,7 @@ public class CreateWorkoutActivity extends AppCompatActivity {
         workoutNameTV = intent.getStringExtra("workoutName");
         workoutTV.setText(workoutNameTV);
 
-        reference = FirebaseDatabase.getInstance().getReference().child("Workout");
-
-        newref = reference.child(workoutNameTV).child("Exercises");
+        newref = reference.child(userID).child("Workout").child(workoutNameTV).child("Exercises");
 
         listView = (ListView) findViewById(R.id.listView_workout_exercises);
         arrayAdapter = new ArrayAdapter<String>(this, R.layout.custom_textview, arrayList);
@@ -85,18 +93,20 @@ public class CreateWorkoutActivity extends AppCompatActivity {
             }
         });
 
-        // Delete all workouts
+        // Delete entire workout
         button_delete_workout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 customWorkout = findViewById(R.id.workoutTV);
                 String workoutName = customWorkout.getText().toString();
-                reference.child(workoutName).removeValue();
+                reference.child(userID).child("Workout").child(workoutName).removeValue();
+                Intent intent = null;
+                intent = new Intent(CreateWorkoutActivity.this, EditWorkoutActivity.class);
+                startActivity(intent);
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
             }
         });
 
-
-        //final String workoutName = workoutET.getText().toString();
 
         button_add_exercise.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -104,8 +114,6 @@ public class CreateWorkoutActivity extends AppCompatActivity {
             {
                 customWorkout = findViewById(R.id.workoutTV);
                 String workoutName = customWorkout.getText().toString();
-//                Map<String, Object> userUpdates = new HashMap<>();
-//                userUpdates.put("workoutName", workoutName);
                 Intent intent = null;
                 intent = new Intent(CreateWorkoutActivity.this, AddExerciseActivity.class);
                 intent.putExtra("workoutId", workoutName);

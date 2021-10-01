@@ -15,6 +15,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -25,25 +27,31 @@ import java.util.ArrayList;
 
 public class EditWorkoutActivity extends AppCompatActivity {
 
-    EditText workoutET;
-    DatabaseReference dbReff;
-    ListView listView;
-    ArrayAdapter<String> arrayAdapter;
-    ArrayList<String> arrayList = new ArrayList<>();
-    Intent intent = null;
+    private DatabaseReference dbReff, reference;
+    private FirebaseUser user;
+
+    private String userID;
+
+    private ListView listView;
+    private ArrayAdapter<String> arrayAdapter;
+    private ArrayList<String> arrayList = new ArrayList<>();
+    private Intent intent = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_workout_selection);
-        String workoutName;
-        dbReff = FirebaseDatabase.getInstance().getReference("Workout");
+
+        user = FirebaseAuth.getInstance().getCurrentUser();
+        reference = FirebaseDatabase.getInstance().getReference("User");
+        userID = user.getUid();
+
         listView = (ListView) findViewById(R.id.listView_Workout_edit);
         arrayAdapter = new ArrayAdapter<String>(this,R.layout.custom_textview, arrayList);
         listView.setAdapter(arrayAdapter);
 
 
-        dbReff.addChildEventListener(new ChildEventListener() {
+        reference.child(userID).child("Workout").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 String value = snapshot.getKey();
@@ -115,8 +123,8 @@ public class EditWorkoutActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
                 String workoutName;
                 workoutName = input.getText().toString();
-                dbReff = FirebaseDatabase.getInstance().getReference("Workout");
-                dbReff.child(workoutName);
+
+                reference.child(userID).child("Workout").child(workoutName);
                 intent = new Intent(EditWorkoutActivity.this, CreateNewWorkoutActivity.class);
                 intent.putExtra("workoutName", workoutName);
                 startActivity(intent);

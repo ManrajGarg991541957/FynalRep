@@ -20,6 +20,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -66,8 +68,10 @@ public class WorkoutListen extends AppCompatActivity implements RecognitionListe
     private SpeechService speechService;
     private SpeechStreamService speechStreamService;
 
-    DatabaseReference reference, newref;
-    DatabaseReference newReference;
+    private FirebaseUser user;
+    private String userID;
+
+    private DatabaseReference reference, newref;
 
     /* Used to handle permission request */
     private static final int PERMISSIONS_REQUEST_RECORD_AUDIO = 1;
@@ -98,6 +102,9 @@ public class WorkoutListen extends AppCompatActivity implements RecognitionListe
         text2 = findViewById(R.id.text_test_2);
         mTextViewCountDown = findViewById(R.id.text_view_countdown);
 
+        user = FirebaseAuth.getInstance().getCurrentUser();
+        userID = user.getUid();
+
         String workoutNameTV;
         // grabbing string from previous activity
         if (state == null) {
@@ -114,7 +121,7 @@ public class WorkoutListen extends AppCompatActivity implements RecognitionListe
         Intent intent = getIntent();
         workoutNameTV = intent.getStringExtra("workoutName");
 
-        reference = FirebaseDatabase.getInstance().getReference().child("Workout");
+        reference = FirebaseDatabase.getInstance().getReference("User").child(userID).child("Workout");
 
         newref = reference.child(workoutNameTV).child("Exercises");
 

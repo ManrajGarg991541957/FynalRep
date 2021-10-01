@@ -1,63 +1,25 @@
 package org.vosk.demo;
 
 public class User {
-    private Integer userId;
+
+    private String fullName, email, password;
     //private boolean paidUser;
-    private String userName;
-    private String firstName;
-    //private String lastName;
-    private String email;
-    private String password;
 
     public User() {
     }
 
-    public User(Integer userId, String firstName, String email, String password) {
-        this.userId = userId;
-        this.firstName = firstName;
+    public User(String fullName, String email) {
+        this.fullName = fullName;
         this.email = email;
-        this.password = password;
     }
 
-    public Integer getUserId() {
-        return userId;
+    public String getFullName() {
+        return fullName;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
-
-//    public boolean isPaidUser() {
-//        return paidUser;
-//    }
-//
-//    public void setPaidUser(boolean paidUser) {
-//        this.paidUser = paidUser;
-//    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-//    public String getLastName() {
-//        return lastName;
-//    }
-//
-//    public void setLastName(String lastName) {
-//        this.lastName = lastName;
-//    }
 
     public String getEmail() {
         return email;
@@ -74,4 +36,12 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
+
+   /*     public boolean isPaidUser() {
+        return paidUser;
+    }
+
+    public void setPaidUser(boolean paidUser) {
+        this.paidUser = paidUser;
+    }*/
 }

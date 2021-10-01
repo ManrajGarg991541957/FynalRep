@@ -48,5 +48,6 @@
     <string name="WaitForVoiceAssistant">Wait for Voice Assistant</string>
     <string name="stop_workout">Stop Workout</string>
     <string name="enter_username">Enter Username</string>
+    <string name="default_web_client_id_copy">1084996706633-csfeol84n1td26gbrq7ra9lngvonemvr.apps.googleusercontent.com</string>
 
 </resources>

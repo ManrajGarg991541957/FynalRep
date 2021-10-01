@@ -1,11 +1,11 @@
 package org.vosk.demo;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+import android.util.Patterns;
 import android.view.View;
-import android.widget.Button;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -33,8 +33,9 @@ import com.google.firebase.database.ValueEventListener;
 
 public class LoginActivity extends AppCompatActivity {
 
-    TextInputLayout loginUsername, loginPassword;
-    String username, password;
+    private TextInputLayout loginEmail, loginPassword;
+    private String email, password;
+    private ProgressBar progressBar;
     FirebaseDatabase rootNode;
     DatabaseReference reff, userReff;
 
@@ -47,9 +48,10 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        loginUsername = findViewById(R.id.login_username);
+        loginEmail = findViewById(R.id.login_email_address);
         loginPassword = findViewById(R.id.login_password);
 
+        progressBar = findViewById(R.id.progressBar2);
 
         FirebaseApp.initializeApp(this);
         rootNode = FirebaseDatabase.getInstance();
@@ -70,37 +72,47 @@ public class LoginActivity extends AppCompatActivity {
         findViewById(R.id.button_login).setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                username = loginUsername.getEditText().getText().toString();
-                password = loginPassword.getEditText().getText().toString();
-                userReff = reff.child(username);
-                Log.d("firebase", userReff.child("password").getKey());
-                userReff.addValueEventListener(new ValueEventListener() {
+                email = loginEmail.getEditText().getText().toString().trim();
+                password = loginPassword.getEditText().getText().toString().trim();
+
+                if(email.isEmpty()){
+                    loginEmail.getEditText().setError("Email is required!");
+                    loginEmail.requestFocus();
+                    return;
+                }
+
+                if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+                    loginEmail.getEditText().setError("Please provide a valid email address.");
+                    loginEmail.requestFocus();
+                    return;
+                }
+
+                if(password.isEmpty()){
+                    loginPassword.getEditText().setError("Password is required!");
+                    loginPassword.requestFocus();
+                    return;
+                }
+
+                if(password.length() < 6){
+                    loginPassword.getEditText().setError("Min password length should be 6 characters.");
+                    loginPassword.requestFocus();
+                    return;
+                }
+
+                progressBar.setVisibility(View.VISIBLE);
+
+                mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        if(dataSnapshot.child("password").getValue().equals(password)){
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+
+                        if(task.isSuccessful()){
                             homePage(view);
-                        } else {
-                            AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
-
-// 2. Chain together various setter methods to set the dialog characteristics
-                            builder.setMessage("Some of your information isn't correct. Please try again.")
-                                    .setTitle("Invalid Credentials")
-                                    .setNeutralButton(android.R.string.ok, null);
-
-// 3. Get the <code><a href="/reference/android/app/AlertDialog.html">AlertDialog</a></code> from <code><a href="/reference/android/app/AlertDialog.Builder.html#create()">create()</a></code>
-                            AlertDialog dialog = builder.create();
-                            dialog.show();
+                        }else{
+                            Toast.makeText(LoginActivity.this, "Failed to login! Please verify your credentials", Toast.LENGTH_LONG).show();
                         }
                     }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-                    }
                 });
-
             }
-
-
         });
 
 
@@ -114,7 +126,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void createRequest() {
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestIdToken(getString(R.string.default_web_client_id_copy))
                 .requestEmail()
                 .build();
 

@@ -8,15 +8,21 @@ import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class AddExerciseActivity extends AppCompatActivity {
 
+    private FirebaseUser user;
+    private DatabaseReference reference, newref;
 
-    FirebaseDatabase rootNode;
-    DatabaseReference reference;
-    EditText exerciseName, exerciseRep, exerciseSet, exerciseWeight;
+    private String userID;
+
+    private FirebaseDatabase rootNode;
+   // private DatabaseReference reference;
+    private EditText exerciseName, exerciseRep, exerciseSet, exerciseWeight;
 
 
 
@@ -68,12 +74,13 @@ public class AddExerciseActivity extends AppCompatActivity {
 
                 workoutObject.setExercise(exercise);
 
-                rootNode = FirebaseDatabase.getInstance();
-                reference = rootNode.getReference("Workout");
+                user = FirebaseAuth.getInstance().getCurrentUser();
+                reference = FirebaseDatabase.getInstance().getReference("User");
+                userID = user.getUid();
 
                 Intent intent = getIntent();
                 String workoutId = intent.getStringExtra("workoutId");
-                reference.child(workoutId).child("Exercises").push().setValue(exercise);
+                reference.child(userID).child("Workout").child(workoutId).child("Exercises").push().setValue(exercise);
                 intent = new Intent(AddExerciseActivity.this, org.vosk.demo.CreateNewWorkoutActivity.class);
                 intent.putExtra("workoutName", workoutId);
                 startActivity(intent);

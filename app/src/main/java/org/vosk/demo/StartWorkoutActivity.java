@@ -11,6 +11,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -21,18 +23,22 @@ import java.util.ArrayList;
 
 public class StartWorkoutActivity extends AppCompatActivity {
 
-    DatabaseReference dbReff;
-    ListView listView;
-    ArrayList<String> arrayList = new ArrayList<>();
-    ArrayAdapter<String> arrayAdapter;
-    Intent intent = null;
+    private FirebaseUser user;
+    private String userID;
+    private DatabaseReference dbReff;
+    private ListView listView;
+    private ArrayList<String> arrayList = new ArrayList<>();
+    private ArrayAdapter<String> arrayAdapter;
+    private Intent intent = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start_workout);
 
-        dbReff = FirebaseDatabase.getInstance().getReference("Workout");
+        user = FirebaseAuth.getInstance().getCurrentUser();
+        userID = user.getUid();
+        dbReff = FirebaseDatabase.getInstance().getReference("User").child(userID).child("Workout");
         listView = (ListView) findViewById(R.id.listView_workout);
         arrayAdapter = new ArrayAdapter<String>(this, R.layout.custom_textview, arrayList);
         listView.setAdapter(arrayAdapter);

@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:textColor="@color/colorButton"
     android:background="@color/colorPrimary">
 
     <TextView
@@ -33,59 +34,67 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/reg_username"
-            android:layout_width="370dp"
-            android:layout_height="50dp"
-            android:hint="@string/enter_a_username"
-            android:textColorHint="@color/white">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:inputType="text" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/reg_full_name"
             android:layout_width="370dp"
             android:layout_height="50dp"
-            android:hint="@string/enter_full_name"
-            android:textColorHint="@color/white">
+            android:theme="@style/Theme.White"
+            android:textColorHint="@color/white"
+            android:hint="@string/enter_full_name">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:inputType="text" />
+                android:inputType="text"
+                android:textColorHint="@color/white"
+                android:textColor="@color/white"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/reg_email_address"
             android:layout_width="370dp"
             android:layout_height="50dp"
-            android:hint="@string/enter_email_address"
-            android:textColorHint="@color/white">
+            android:theme="@style/Theme.White"
+            android:textColorHint="@color/white"
+            android:hint="@string/enter_email_address">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:inputType="text" />
+                android:inputType="text"
+                android:textColor="@color/white"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/reg_password"
             android:layout_width="370dp"
             android:layout_height="50dp"
-            android:hint="@string/enter_a_password"
-            android:textColorHint="@color/white">
+            android:theme="@style/Theme.White"
+            android:textColorHint="@color/white"
+            android:hint="@string/enter_a_password">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:inputType="textPassword" />
+                android:inputType="textPassword"
+                android:textColor="@color/white"/>
         </com.google.android.material.textfield.TextInputLayout>
 
     </LinearLayout>
 
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="181dp"
+        android:layout_marginTop="272dp"
+        android:layout_marginEnd="182dp"
+        android:layout_marginBottom="411dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
     <Button
         android:id="@+id/reg_create_account_btn"
         android:layout_width="370dp"
@@ -101,5 +110,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

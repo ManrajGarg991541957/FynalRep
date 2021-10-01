@@ -13,15 +13,18 @@
         android:src="@mipmap/ic_launcher_round"/>
 
     <TextView
+        android:id="@+id/nav_user_full_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="8dp"
-        android:text="username"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
+        android:text=""
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
     <TextView
+        android:id="@+id/nav_user_email"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="email@email.com" />
+        android:paddingLeft="8dp"
+        android:text="" />
 
 </LinearLayout>
