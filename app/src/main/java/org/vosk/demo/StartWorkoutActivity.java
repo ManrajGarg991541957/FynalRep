@@ -60,7 +60,6 @@ public class StartWorkoutActivity extends AppCompatActivity {
 
         mDrawerLayout = findViewById(R.id.drawer_layout);
 
-        dbReff = FirebaseDatabase.getInstance().getReference("Workout");
         listView = (ListView) findViewById(R.id.listView_workout);
         arrayAdapter = new ArrayAdapter<String>(this, R.layout.custom_textview, arrayList);
         listView.setAdapter(arrayAdapter);

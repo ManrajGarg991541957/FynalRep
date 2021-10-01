@@ -35,23 +35,14 @@ public class CreateWorkoutActivity extends AppCompatActivity {
 
     private DrawerLayout mDrawerLayout;
     private FirebaseUser user;
-    private DatabaseReference reference;
+    private DatabaseReference reference, newref;
 
     private String userID;
 
     private TextView customWorkout, workoutTV;
     private Button button_delete_workout, button_add_workout, button_add_exercise, button_save_workout;
 
-
-    private DatabaseReference newref;
-
-    private TextView ;
     AlertDialog.Builder builder;
-    
-    private Button ;
-
-    private DatabaseReference newref;
-
 
 
     private ListView listView;
