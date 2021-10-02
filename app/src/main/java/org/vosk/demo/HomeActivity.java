@@ -64,6 +64,20 @@ public class HomeActivity extends AppCompatActivity {
         final TextView fullNameTextView = headerView.findViewById(R.id.nav_user_full_name);
         final TextView emailTextView = headerView.findViewById(R.id.nav_user_email);
 
+
+
+        findViewById(R.id.log_out).setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View view) {
+                FirebaseAuth.getInstance().signOut();;
+                startActivity(new Intent(HomeActivity.this, SignUpForm.class));
+                Toast.makeText(HomeActivity.this, "You have successfully  logged out", Toast.LENGTH_LONG).show();
+            }
+        });
+
+
+
         reference.child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {

@@ -36,6 +36,12 @@
                     android:text="Edit Workouts"
                     android:textStyle="bold|italic" />
 
+                <Button
+                    android:id="@+id/log_out"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Sign Out" />
+
             </LinearLayout>
 
             <LinearLayout
@@ -56,10 +62,17 @@
                     android:text="Start Workout"
                     android:textStyle="bold|italic" />
             </LinearLayout>
+
+            <Button
+                android:id="@+id/button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Button" />
+
         </RelativeLayout>
 
         <FrameLayout
-            android:id="@+id/content_frame"
+            android:id="@+id/Log_out"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
