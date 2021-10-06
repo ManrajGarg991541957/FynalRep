@@ -45,7 +45,8 @@
                     android:background="@drawable/ic_baseline_add_circle_24"
                     android:onClick="goToCreateWorkout"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent" />
+                    app:layout_constraintEnd_toEndOf="parent"
+                    tools:ignore="SpeakableTextPresentCheck" />
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>

@@ -11,6 +11,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -30,6 +31,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -67,23 +69,57 @@ public class EditWorkoutActivity extends AppCompatActivity {
 
         mDrawerLayout = findViewById(R.id.drawer_layout);
 
+        NavigationView navView = findViewById(R.id.nav_view);
+        View headerView = navView.getHeaderView(0);
+
+        final TextView fullNameTextView = headerView.findViewById(R.id.nav_user_full_name);
+        final TextView emailTextView = headerView.findViewById(R.id.nav_user_email);
+
         String workoutName;
         dbReff = FirebaseDatabase.getInstance().getReference("Workout");
         listView = (ListView) findViewById(R.id.listView_Workout_edit);
         arrayAdapter = new ArrayAdapter<String>(this,R.layout.custom_textview, arrayList);
         listView.setAdapter(arrayAdapter);
 
-        NavigationView navView = findViewById(R.id.nav_view);
+        reference.child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                User userProfile = snapshot.getValue(User.class);
+
+                if(userProfile != null){
+                    String fullName = userProfile.getFullName();
+                    String email = userProfile.getEmail();
+
+                    fullNameTextView.setText("Welcome, " + fullName);
+                    emailTextView.setText(email);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
         navView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
                     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                        int selectedItemId = menuItem.getItemId();
                         //set item as selected to persist highlight
                         menuItem.setChecked(true);
                         //close drawer when item is tapped
                         mDrawerLayout.closeDrawers();
                         Toast.makeText(EditWorkoutActivity.this.getApplicationContext(), menuItem.getTitle(),
                                 Toast.LENGTH_LONG).show();
+                        switch (selectedItemId) {
+                            case R.id.log_out:
+                                FirebaseAuth.getInstance().signOut();
+                                startActivity(new Intent(EditWorkoutActivity.this, LandingPageActivity.class));
+                                Toast.makeText(EditWorkoutActivity.this, "You have successfully  logged out", Toast.LENGTH_LONG).show();
+
+                                break;
+                        }
 
                         return true;
                     }

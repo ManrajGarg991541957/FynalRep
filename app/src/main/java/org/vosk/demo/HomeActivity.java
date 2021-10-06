@@ -60,7 +60,6 @@ public class HomeActivity extends AppCompatActivity {
 
         NavigationView navView = findViewById(R.id.nav_view);
         View headerView = navView.getHeaderView(0);
-
         final TextView fullNameTextView = headerView.findViewById(R.id.nav_user_full_name);
         final TextView emailTextView = headerView.findViewById(R.id.nav_user_email);
 

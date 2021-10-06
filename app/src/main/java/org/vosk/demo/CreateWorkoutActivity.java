@@ -73,16 +73,53 @@ public class CreateWorkoutActivity extends AppCompatActivity {
         builder = new AlertDialog.Builder(this);
 
         NavigationView navView = findViewById(R.id.nav_view);
+        View headerView = navView.getHeaderView(0);
+        final TextView fullNameTextView = headerView.findViewById(R.id.nav_user_full_name);
+        final TextView emailTextView = headerView.findViewById(R.id.nav_user_email);
+
+        user = FirebaseAuth.getInstance().getCurrentUser();
+        reference = FirebaseDatabase.getInstance().getReference("User");
+        userID = user.getUid();
+
+        reference.child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                User userProfile = snapshot.getValue(User.class);
+
+                if(userProfile != null){
+                    String fullName = userProfile.getFullName();
+                    String email = userProfile.getEmail();
+
+                    fullNameTextView.setText("Welcome, " + fullName);
+                    emailTextView.setText(email);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
         navView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
                     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                        int selectedItemId = menuItem.getItemId();
                         //set item as selected to persist highlight
                         menuItem.setChecked(true);
                         //close drawer when item is tapped
                         mDrawerLayout.closeDrawers();
                         Toast.makeText(CreateWorkoutActivity.this.getApplicationContext(), menuItem.getTitle(),
                                 Toast.LENGTH_LONG).show();
+                        switch (selectedItemId) {
+                            case R.id.log_out:
+                                FirebaseAuth.getInstance().signOut();
+                                startActivity(new Intent(CreateWorkoutActivity.this, LandingPageActivity.class));
+                                Toast.makeText(CreateWorkoutActivity.this, "You have successfully  logged out", Toast.LENGTH_LONG).show();
+
+                                break;
+                        }
 
                         return true;
                     }
