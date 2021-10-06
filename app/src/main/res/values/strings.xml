@@ -52,5 +52,6 @@
     <string name="delete_workout">Delete Workout</string>
     <string name="add_exercise">Add Exercise</string>
     <string name="save_and_quit">Save and Quit</string>
+    <string name="sign_out">Sign Out</string>
 
 </resources>

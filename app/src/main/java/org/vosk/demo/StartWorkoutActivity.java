@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -26,6 +27,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -33,7 +35,7 @@ public class StartWorkoutActivity extends AppCompatActivity {
 
     private FirebaseUser user;
     private String userID;
-    private DatabaseReference dbReff;
+    private DatabaseReference dbReff, reference;
     private ListView listView;
     private ArrayList<String> arrayList = new ArrayList<>();
     private ArrayAdapter<String> arrayAdapter;
@@ -49,6 +51,7 @@ public class StartWorkoutActivity extends AppCompatActivity {
         user = FirebaseAuth.getInstance().getCurrentUser();
         userID = user.getUid();
         dbReff = FirebaseDatabase.getInstance().getReference("User").child(userID).child("Workout");
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Fynal Rep");
@@ -58,23 +61,61 @@ public class StartWorkoutActivity extends AppCompatActivity {
         actionbar.setDisplayHomeAsUpEnabled(true);
         actionbar.setHomeAsUpIndicator(R.drawable.ic_menu);
 
+
+        NavigationView navView = findViewById(R.id.nav_view);
+        View headerView = navView.getHeaderView(0);
+        final TextView fullNameTextView = headerView.findViewById(R.id.nav_user_full_name);
+        final TextView emailTextView = headerView.findViewById(R.id.nav_user_email);
+
+        user = FirebaseAuth.getInstance().getCurrentUser();
+        reference = FirebaseDatabase.getInstance().getReference("User");
+        userID = user.getUid();
+
         mDrawerLayout = findViewById(R.id.drawer_layout);
 
         listView = (ListView) findViewById(R.id.listView_workout);
         arrayAdapter = new ArrayAdapter<String>(this, R.layout.custom_textview, arrayList);
         listView.setAdapter(arrayAdapter);
 
-        NavigationView navView = findViewById(R.id.nav_view);
+        reference.child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                User userProfile = snapshot.getValue(User.class);
+
+                if(userProfile != null){
+                    String fullName = userProfile.getFullName();
+                    String email = userProfile.getEmail();
+
+                    fullNameTextView.setText("Welcome, " + fullName);
+                    emailTextView.setText(email);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
         navView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
                     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                        int selectedItemId = menuItem.getItemId();
                         //set item as selected to persist highlight
                         menuItem.setChecked(true);
                         //close drawer when item is tapped
                         mDrawerLayout.closeDrawers();
                         Toast.makeText(StartWorkoutActivity.this.getApplicationContext(), menuItem.getTitle(),
                                 Toast.LENGTH_LONG).show();
+                        switch (selectedItemId) {
+                            case R.id.log_out:
+                                FirebaseAuth.getInstance().signOut();
+                                startActivity(new Intent(StartWorkoutActivity.this, LandingPageActivity.class));
+                                Toast.makeText(StartWorkoutActivity.this, "You have successfully  logged out", Toast.LENGTH_LONG).show();
+
+                                break;
+                        }
 
                         return true;
                     }
@@ -103,6 +144,7 @@ public class StartWorkoutActivity extends AppCompatActivity {
                     }
                 }
         );
+
 
         dbReff.addChildEventListener(new ChildEventListener() {
             @Override
