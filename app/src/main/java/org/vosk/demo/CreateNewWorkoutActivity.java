@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -92,6 +93,23 @@ public class CreateNewWorkoutActivity extends AppCompatActivity {
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
+            }
+        });
+
+        //edit workout
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+
+                String workoutName = workoutTV.getText().toString();
+                String exerciseName = (String) (listView.getItemAtPosition(position));
+
+                Intent intent = new Intent(CreateNewWorkoutActivity.this, EditExerciseActivity.class);
+                intent.putExtra("workoutId", workoutName);
+                intent.putExtra("exerciseId", exerciseName);
+
+                startActivity(intent);
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
             }
         });
 
