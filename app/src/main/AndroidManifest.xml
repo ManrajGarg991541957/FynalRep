@@ -30,6 +30,7 @@
         <activity android:name="org.vosk.demo.EditWorkoutActivity" android:parentActivityName="org.vosk.demo.HomeActivity"/>
         <activity android:name="org.vosk.demo.AccountActivity" />
         <activity android:name="org.vosk.demo.StartWorkoutActivity" />
+        <activity android:name="org.vosk.demo.EditExerciseActivity" android:parentActivityName="org.vosk.demo.CreateWorkoutActivity" />
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />

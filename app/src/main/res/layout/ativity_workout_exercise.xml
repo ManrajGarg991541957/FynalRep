@@ -8,6 +8,20 @@
     android:fontFamily="@font/aldrich"
     android:background="@color/colorPrimary">
 
+    <Button
+        android:id="@+id/edit_button_exercise"
+        android:layout_width="370dp"
+        android:layout_height="60dp"
+        android:layout_marginBottom="140dp"
+        android:background="@drawable/rounded_corners"
+        android:fontFamily="@font/aldrich"
+        android:text="Edit Exercise"
+        android:textStyle="bold|italic"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.39"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <EditText
         android:id="@+id/exercise_name"
         android:layout_width="250dp"

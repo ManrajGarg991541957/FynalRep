@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -44,6 +45,7 @@ public class CreateWorkoutActivity extends AppCompatActivity {
 
     AlertDialog.Builder builder;
 
+    String workoutNameTV;
 
     private ListView listView;
     private ArrayAdapter<String> arrayAdapter;
@@ -188,6 +190,26 @@ public class CreateWorkoutActivity extends AppCompatActivity {
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
+            }
+        });
+
+        //edit workout
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+
+                customWorkout = findViewById(R.id.workoutTV);
+                String workoutName = customWorkout.getText().toString();
+                String exerciseName = (String) (listView.getItemAtPosition(position));
+
+
+                Intent intent = null;
+                intent = new Intent(CreateWorkoutActivity.this, EditExerciseActivity.class);
+                intent.putExtra("workoutId", workoutName);
+                intent.putExtra("exerciseId", exerciseName);
+
+                startActivity(intent);
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
             }
         });
 
