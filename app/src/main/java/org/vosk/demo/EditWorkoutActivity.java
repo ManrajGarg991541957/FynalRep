@@ -113,6 +113,11 @@ public class EditWorkoutActivity extends AppCompatActivity {
                         Toast.makeText(EditWorkoutActivity.this.getApplicationContext(), menuItem.getTitle(),
                                 Toast.LENGTH_LONG).show();
                         switch (selectedItemId) {
+                            case R.id.nav_home:
+                                startActivity(new Intent(EditWorkoutActivity.this, HomeActivity.class));
+                                Toast.makeText(EditWorkoutActivity.this, "Home", Toast.LENGTH_LONG).show();
+
+                                break;
                             case R.id.log_out:
                                 FirebaseAuth.getInstance().signOut();
                                 startActivity(new Intent(EditWorkoutActivity.this, LandingPageActivity.class));

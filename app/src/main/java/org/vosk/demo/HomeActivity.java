@@ -96,6 +96,11 @@ public class HomeActivity extends AppCompatActivity {
                         Toast.makeText(HomeActivity.this.getApplicationContext(), menuItem.getTitle(),
                                 Toast.LENGTH_LONG).show();
                         switch (selectedItemId) {
+                            case R.id.nav_home:
+                                startActivity(new Intent(HomeActivity.this, HomeActivity.class));
+                                Toast.makeText(HomeActivity.this, "Home", Toast.LENGTH_LONG).show();
+
+                                break;
                             case R.id.log_out:
                                 FirebaseAuth.getInstance().signOut();
                                 startActivity(new Intent(HomeActivity.this, LandingPageActivity.class));

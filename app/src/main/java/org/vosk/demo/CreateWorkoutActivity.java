@@ -113,6 +113,11 @@ public class CreateWorkoutActivity extends AppCompatActivity {
                         Toast.makeText(CreateWorkoutActivity.this.getApplicationContext(), menuItem.getTitle(),
                                 Toast.LENGTH_LONG).show();
                         switch (selectedItemId) {
+                            case R.id.nav_home:
+                                startActivity(new Intent(CreateWorkoutActivity.this, HomeActivity.class));
+                                Toast.makeText(CreateWorkoutActivity.this, "Home", Toast.LENGTH_LONG).show();
+
+                                break;
                             case R.id.log_out:
                                 FirebaseAuth.getInstance().signOut();
                                 startActivity(new Intent(CreateWorkoutActivity.this, LandingPageActivity.class));

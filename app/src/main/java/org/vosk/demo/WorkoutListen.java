@@ -340,7 +340,6 @@ public class WorkoutListen extends AppCompatActivity implements RecognitionListe
 
     private void countProgress() {
         final MediaPlayer soundSetsComplete = MediaPlayer.create(this, R.raw.allsetscomplete);
-
         final MediaPlayer soundSet1Complete = MediaPlayer.create(this, R.raw.set1complete);
         final MediaPlayer soundSet2Complete = MediaPlayer.create(this, R.raw.set2complete);
         final MediaPlayer soundSet3Complete = MediaPlayer.create(this, R.raw.set3complete);
