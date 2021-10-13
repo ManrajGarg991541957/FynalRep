@@ -35,7 +35,7 @@ public class EditExerciseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.ativity_workout_exercise);
+        setContentView(R.layout.ativity_edit_workout_exercise);
 
 
         exerciseName = findViewById(R.id.exercise_name);
