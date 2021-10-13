@@ -60,9 +60,9 @@ public class HomeActivity extends AppCompatActivity {
 
         NavigationView navView = findViewById(R.id.nav_view);
         View headerView = navView.getHeaderView(0);
+
         final TextView fullNameTextView = headerView.findViewById(R.id.nav_user_full_name);
         final TextView emailTextView = headerView.findViewById(R.id.nav_user_email);
-
 
         reference.child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -88,26 +88,12 @@ public class HomeActivity extends AppCompatActivity {
                 new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
                     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                        int selectedItemId = menuItem.getItemId();
                         //set item as selected to persist highlight
                         menuItem.setChecked(true);
                         //close drawer when item is tapped
                         mDrawerLayout.closeDrawers();
                         Toast.makeText(HomeActivity.this.getApplicationContext(), menuItem.getTitle(),
                                 Toast.LENGTH_LONG).show();
-                        switch (selectedItemId) {
-                            case R.id.nav_home:
-                                startActivity(new Intent(HomeActivity.this, HomeActivity.class));
-                                Toast.makeText(HomeActivity.this, "Home", Toast.LENGTH_LONG).show();
-
-                                break;
-                            case R.id.log_out:
-                                FirebaseAuth.getInstance().signOut();
-                                startActivity(new Intent(HomeActivity.this, LandingPageActivity.class));
-                                Toast.makeText(HomeActivity.this, "You have successfully  logged out", Toast.LENGTH_LONG).show();
-
-                                break;
-                        }
 
                         return true;
                     }
