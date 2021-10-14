@@ -7,6 +7,22 @@
     android:textColor="@color/colorButton"
     android:background="@color/colorPrimary">
 
+    <Button
+        android:id="@+id/google_signIn"
+        android:layout_width="370dp"
+        android:layout_height="50dp"
+        android:background="@drawable/rounded_corners"
+        android:fontFamily="@font/aldrich"
+        android:text="@string/continue_with_google"
+        android:textSize="16sp"
+        android:textStyle="bold|italic"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.487"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.629" />
+
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
