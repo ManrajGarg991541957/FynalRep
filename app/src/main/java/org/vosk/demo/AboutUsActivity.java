@@ -5,7 +5,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,7 +15,6 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
-import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -26,20 +24,18 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class HomeActivity extends AppCompatActivity {
+public class AboutUsActivity extends AppCompatActivity {
 
     private FirebaseUser user;
     private DatabaseReference reference;
-
     private String userID;
-
     private DrawerLayout mDrawerLayout;
-    private Button selectWorkout, startWorkout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
+        setContentView(R.layout.activity_about_us);
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Fynal Rep");
@@ -49,8 +45,6 @@ public class HomeActivity extends AppCompatActivity {
         actionbar.setDisplayHomeAsUpEnabled(true);
         actionbar.setHomeAsUpIndicator(R.drawable.ic_menu);
 
-        selectWorkout = findViewById(R.id.button_select_workout);
-        startWorkout = findViewById(R.id.button_start_workout);
         mDrawerLayout = findViewById(R.id.drawer_layout);
 
 
@@ -69,7 +63,7 @@ public class HomeActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 User userProfile = snapshot.getValue(User.class);
 
-                if(userProfile != null){
+                if (userProfile != null) {
                     String fullName = userProfile.getFullName();
                     String email = userProfile.getEmail();
 
@@ -93,22 +87,22 @@ public class HomeActivity extends AppCompatActivity {
                         menuItem.setChecked(true);
                         //close drawer when item is tapped
                         mDrawerLayout.closeDrawers();
-                        Toast.makeText(HomeActivity.this.getApplicationContext(), menuItem.getTitle(),
+                        Toast.makeText(AboutUsActivity.this.getApplicationContext(), menuItem.getTitle(),
                                 Toast.LENGTH_LONG).show();
 
                         switch (selectedItemId) {
+                            case R.id.nav_home:
+                                startActivity(new Intent(AboutUsActivity.this, HomeActivity.class));
+                                Toast.makeText(AboutUsActivity.this, "Home", Toast.LENGTH_LONG).show();
+                                break;
+
                             case R.id.log_out:
                                 FirebaseAuth.getInstance().signOut();
-                                startActivity(new Intent(HomeActivity.this, LandingPageActivity.class));
-                                Toast.makeText(HomeActivity.this, "You have successfully  logged out", Toast.LENGTH_LONG).show();
+                                startActivity(new Intent(AboutUsActivity.this, LandingPageActivity.class));
+                                Toast.makeText(AboutUsActivity.this, "You have successfully  logged out", Toast.LENGTH_LONG).show();
                                 break;
 
-                            case R.id.about_us:
-                                startActivity(new Intent(HomeActivity.this, AboutUsActivity.class));
-                                Toast.makeText(HomeActivity.this, "About Us", Toast.LENGTH_LONG).show();
-                                break;
                         }
-
                         return true;
                     }
                 });
@@ -136,27 +130,6 @@ public class HomeActivity extends AppCompatActivity {
                     }
                 }
         );
-
-        /*editWorkout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(HomeActivity.this, EditWorkoutActivity.class));
-            }
-        });
-
-        createWorkout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(HomeActivity.this, CreateWorkoutActivity.class));
-            }
-        });
-
-        startWorkout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(HomeActivity.this, StartWorkoutActivity.class));
-            }
-        });*/
     }
 
     @Override
@@ -168,20 +141,5 @@ public class HomeActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void callIntent(View view) {
-        Intent intent = null;
-        switch (view.getId()) {
-            case R.id.button_select_workout:
-                intent = new Intent(this, EditWorkoutActivity.class);
-                startActivity(intent);
-                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-                break;
-            case R.id.button_start_workout:
-                intent = new Intent(this, StartWorkoutActivity.class);
-                startActivity(intent);
-                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-            default:
-                break;
-        }
-    }
+
 }

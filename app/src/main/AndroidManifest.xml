@@ -21,6 +21,7 @@
         </activity>
         <activity android:name="org.vosk.demo.SignUpForm" />
         <activity android:name="org.vosk.demo.WorkoutListen"/>
+        <activity android:name="org.vosk.demo.AboutUsActivity"/>
         <activity android:name="org.vosk.demo.SelectWorkoutActivity" android:parentActivityName="org.vosk.demo.HomeActivity"/>
         <activity android:name="org.vosk.demo.CreateWorkoutActivity" android:parentActivityName="org.vosk.demo.HomeActivity"/>
         <activity android:name="org.vosk.demo.CreateNewWorkoutActivity" android:parentActivityName="org.vosk.demo.HomeActivity"/>

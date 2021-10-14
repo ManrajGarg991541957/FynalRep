@@ -2,10 +2,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_premium"
-            android:icon="@drawable/ic_premium"
-            android:title="@string/menu_premium" />
-        <item
             android:id="@+id/nav_home"
             android:icon="@drawable/ic_home"
             android:title="@string/menu_home" />
@@ -14,9 +10,9 @@
             android:icon="@drawable/ic_settings"
             android:title="@string/menu_settings" />
         <item
-            android:id="@+id/nav_help"
-            android:icon="@drawable/ic_help"
-            android:title="@string/menu_help" />
+            android:id="@+id/about_us"
+            android:icon="@drawable/ic_about_us"
+            android:title="@string/menu_about_us" />
         <item
             android:id="@+id/log_out"
             android:icon="@drawable/sign_out"

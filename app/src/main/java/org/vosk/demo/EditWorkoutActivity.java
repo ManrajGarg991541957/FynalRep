@@ -124,6 +124,12 @@ public class EditWorkoutActivity extends AppCompatActivity {
                                 Toast.makeText(EditWorkoutActivity.this, "You have successfully  logged out", Toast.LENGTH_LONG).show();
 
                                 break;
+
+                            case R.id.about_us:
+                                startActivity(new Intent(EditWorkoutActivity.this, AboutUsActivity.class));
+                                Toast.makeText(EditWorkoutActivity.this, "About Us", Toast.LENGTH_LONG).show();
+
+                                break;
                         }
 
                         return true;
