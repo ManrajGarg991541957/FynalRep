@@ -11,10 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-public class
-
-
-LandingPageActivity extends AppCompatActivity {
+public class LandingPageActivity extends AppCompatActivity {
 
     private Button signUpButton;
     private Button logInButton;
