@@ -177,12 +177,15 @@ public class CreateWorkoutActivity extends AppCompatActivity {
         workoutNameTV = intent.getStringExtra("workoutName");
         workoutTV.setText(workoutNameTV);
 
+        //creating a reference to the database
         newref = reference.child(userID).child("Workout").child(workoutNameTV).child("Exercises");
 
+        //accessing listView to implement arrayAdapter
         listView = (ListView) findViewById(R.id.listView_workout_exercises);
         arrayAdapter = new ArrayAdapter<String>(this, R.layout.custom_textview, arrayList);
         listView.setAdapter(arrayAdapter);
 
+        //method to read and listen fro changes to the entire contents of the path
         newref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {

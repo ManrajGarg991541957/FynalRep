@@ -8,10 +8,71 @@
     android:fontFamily="@font/aldrich"
     android:background="@color/colorPrimary">
 
+    <TextView
+        android:id="@+id/ExName"
+        android:layout_width="115dp"
+        android:layout_height="34dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="128dp"
+        android:fontFamily="@font/aldrich"
+        android:gravity="start"
+        android:text="Exercise:"
+        android:textColor="@color/colorButton"
+        android:textSize="20sp"
+        android:textStyle="bold|italic"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/exSet"
+        android:layout_width="115dp"
+        android:layout_height="34dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="192dp"
+        android:fontFamily="@font/aldrich"
+        android:gravity="start"
+        android:text="Set Count:"
+        android:textColor="@color/colorButton"
+        android:textSize="20sp"
+        android:textStyle="bold|italic"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/exRep"
+        android:layout_width="115dp"
+        android:layout_height="34dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="256dp"
+        android:fontFamily="@font/aldrich"
+        android:gravity="start"
+        android:text="Rep Count:"
+        android:textColor="@color/colorButton"
+        android:textSize="20sp"
+        android:textStyle="bold|italic"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/exWeight"
+        android:layout_width="115dp"
+        android:layout_height="34dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="316dp"
+        android:fontFamily="@font/aldrich"
+        android:gravity="start"
+        android:text="Weight:"
+        android:textColor="@color/colorButton"
+        android:textSize="20sp"
+        android:textStyle="bold|italic"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <EditText
         android:id="@+id/exercise_name"
-        android:layout_width="250dp"
+        android:layout_width="210dp"
         android:layout_height="45dp"
+        android:layout_marginEnd="44dp"
         android:autofillHints="@string/exercise_hint"
         android:background="@color/white"
         android:fontFamily="@font/aldrich"
@@ -21,33 +82,31 @@
         android:textStyle="bold|italic"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.17" />
+        app:layout_constraintVertical_bias="0.172" />
 
     <EditText
         android:id="@+id/exercise_set"
-        android:layout_width="250dp"
+        android:layout_width="210dp"
         android:layout_height="45dp"
+        android:layout_marginEnd="44dp"
         android:autofillHints="@string/exercise_set"
         android:background="@color/white"
+        android:fontFamily="@font/aldrich"
+        android:gravity="center"
         android:hint="@string/exercise_set"
         android:inputType="number"
-        android:gravity="center"
         android:textStyle="bold|italic"
-        android:fontFamily="@font/aldrich"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.268" />
 
     <EditText
         android:id="@+id/exercise_rep"
-        android:layout_width="250dp"
+        android:layout_width="210dp"
         android:layout_height="45dp"
+        android:layout_marginEnd="44dp"
         android:autofillHints="@string/exercise_set"
         android:background="@color/white"
         android:fontFamily="@font/aldrich"
@@ -57,15 +116,14 @@
         android:textStyle="bold|italic"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.354" />
+        app:layout_constraintVertical_bias="0.357" />
 
     <EditText
         android:id="@+id/exercise_weight"
-        android:layout_width="250dp"
+        android:layout_width="210dp"
         android:layout_height="45dp"
+        android:layout_marginEnd="44dp"
         android:autofillHints="@string/exercise_weight"
         android:background="@color/white"
         android:fontFamily="@font/aldrich"
@@ -75,10 +133,8 @@
         android:textStyle="bold|italic"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.437" />
+        app:layout_constraintVertical_bias="0.446" />
 
     <Button
         android:id="@+id/add_button_exercise"
