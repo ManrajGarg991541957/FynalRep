@@ -139,6 +139,8 @@ public class WorkoutListen extends AppCompatActivity implements RecognitionListe
                     arrayListExercises.add(valueName);
                     String valueSetCount = (datas.child("setCount").getValue().toString());
                     arrayListExercises.add(valueSetCount);
+                    String valueRepCount = (datas.child("repCount").getValue().toString());
+                    arrayListExercises.add(valueRepCount);
                     amountExercises++;
                     arrayAdapterExercises.notifyDataSetChanged();
                 }
@@ -381,14 +383,16 @@ public class WorkoutListen extends AppCompatActivity implements RecognitionListe
             @Override
             public void run() {
                 // Do something after 5s = 5000ms
-                String exName, setCount;
-                int loop = amountExercises * 2;
+                String exName, setCount, repCount;
+                int loop = amountExercises * 3;
                 workoutResult.setText("Workout Info\n\n");
-                for (int i = 0; i < loop; i+=2){
+                for (int i = 0; i < loop; i+=3){
                     exName = arrayListExercises.get(i).toString();
                     setCount = arrayListExercises.get(i+1).toString();
+                    repCount = arrayListExercises.get(i+2).toString();
                     workoutResult.append("Exercise: " + exName + "\n");
-                    workoutResult.append("Set Count: " + setCount + "\n\n");
+                    workoutResult.append("Set Count: " + setCount + "\n");
+                    workoutResult.append("Rep Count: " + repCount + "\n\n");
                 }
             }
         }, 3000);
