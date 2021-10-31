@@ -135,8 +135,6 @@ public class LoginActivity extends AppCompatActivity {
 
     private void signIn() {
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
-        Intent intent = new Intent(this, HomeActivity.class);
-
         startActivityForResult(signInIntent, RC_SIGN_IN);
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }
@@ -168,11 +166,33 @@ public class LoginActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             FirebaseUser user = mAuth.getCurrentUser();
+                            startActivity(new Intent(LoginActivity.this, HomeActivity.class));
+//                            finish();
                         } else {
                             // If sign in fails, display a message to the user.
                         }
                     }
                 });
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        // Check if user is signed in (non-null) and update UI accordingly.
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        updateUI(currentUser);
+    }
+
+    public void updateUI(FirebaseUser account){
+
+        if(account != null){
+            Toast.makeText(this,"You Signed In successfully",Toast.LENGTH_LONG).show();
+            startActivity(new Intent(this,HomeActivity.class));
+
+        }else {
+            Toast.makeText(this,"You Didnt signed in",Toast.LENGTH_LONG).show();
+        }
+
     }
 
 }
