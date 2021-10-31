@@ -3,6 +3,7 @@ package org.vosk.demo;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -16,6 +17,9 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.firebase.ui.auth.AuthUI;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -99,6 +103,17 @@ public class HomeActivity extends AppCompatActivity {
                         switch (selectedItemId) {
                             case R.id.log_out:
                                 FirebaseAuth.getInstance().signOut();
+                                AuthUI.getInstance()
+                                        .signOut(HomeActivity.this)
+                                        .addOnCompleteListener(new OnCompleteListener<Void>(){
+
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+
+                                                // do something here
+
+                                            }
+                                        });
                                 startActivity(new Intent(HomeActivity.this, LandingPageActivity.class));
                                 Toast.makeText(HomeActivity.this, "You have successfully  logged out", Toast.LENGTH_LONG).show();
                                 break;
@@ -159,6 +174,7 @@ public class HomeActivity extends AppCompatActivity {
         });*/
     }
 
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -183,5 +199,17 @@ public class HomeActivity extends AppCompatActivity {
             default:
                 break;
         }
+    }
+
+    public void updateUI(FirebaseUser account){
+
+        if(account != null){
+            Toast.makeText(this,"You Signed In successfully",Toast.LENGTH_LONG).show();
+            startActivity(new Intent(this,HomeActivity.class));
+
+        }else {
+            Toast.makeText(this,"You Didnt signed in",Toast.LENGTH_LONG).show();
+        }
+
     }
 }

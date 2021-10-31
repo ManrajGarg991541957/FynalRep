@@ -39,7 +39,7 @@ public class LoginActivity extends AppCompatActivity {
     FirebaseDatabase rootNode;
     DatabaseReference reff, userReff;
 
-    private GoogleSignInClient mGoogleSignInClient;
+    public static GoogleSignInClient mGoogleSignInClient;
     private final static int RC_SIGN_IN = 123;
     private FirebaseAuth mAuth;
 
@@ -167,7 +167,7 @@ public class LoginActivity extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             FirebaseUser user = mAuth.getCurrentUser();
                             startActivity(new Intent(LoginActivity.this, HomeActivity.class));
-//                            finish();
+                            finish();
                         } else {
                             // If sign in fails, display a message to the user.
                         }
