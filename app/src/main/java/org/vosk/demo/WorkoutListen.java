@@ -58,9 +58,9 @@ public class WorkoutListen extends AppCompatActivity implements RecognitionListe
     static private final int STATE_MIC  = 3;
 
     // Strings for detecting keywords
-    private final String keywordPauseWorkout = "pause";
+    private final String keywordPauseWorkout = "stop";
     private final String keywordSetCompleted = "complete";
-    private final String keywordResumeWorkout = "resume";
+    private final String keywordResumeWorkout = "start";
     private String userInput;
 
     // Kaldi speech model and speechService Objects needed for Vosk to work
@@ -287,7 +287,7 @@ public class WorkoutListen extends AppCompatActivity implements RecognitionListe
         }
             else if (userInput.equals(keywordSetCompleted)){
             countProgress();
-            mTimeLeftInMillis = (30000);
+            mTimeLeftInMillis = (25000);
             startTimer();
         }
     }
@@ -306,7 +306,7 @@ public class WorkoutListen extends AppCompatActivity implements RecognitionListe
     }
 
     private void startTimer() {
-        final MediaPlayer sound = MediaPlayer.create(this, R.raw.horn);
+        final MediaPlayer sound = MediaPlayer.create(this, R.raw.breaktimevverbeginnextset);
         mCountDownTimer = new CountDownTimer(mTimeLeftInMillis, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
@@ -341,38 +341,19 @@ public class WorkoutListen extends AppCompatActivity implements RecognitionListe
     }
 
     private void countProgress() {
-        final MediaPlayer soundSetsComplete = MediaPlayer.create(this, R.raw.allsetscomplete);
-        final MediaPlayer soundSet1Complete = MediaPlayer.create(this, R.raw.set1complete);
-        final MediaPlayer soundSet2Complete = MediaPlayer.create(this, R.raw.set2complete);
-        final MediaPlayer soundSet3Complete = MediaPlayer.create(this, R.raw.set3complete);
-        final MediaPlayer soundSet4Complete = MediaPlayer.create(this, R.raw.set4complete);
-        final MediaPlayer soundSet5Complete = MediaPlayer.create(this, R.raw.set5complete);
+        final MediaPlayer soundAllSetsComplete = MediaPlayer.create(this, R.raw.allsetscomplete);
+        final MediaPlayer soundSetComplete = MediaPlayer.create(this, R.raw.setcompletebreaktimerstarted);
 
         int sets = Integer.parseInt(arrayListExercises.get(index));
         if (counter == sets) {
             workoutResult2.setText("Current Set: " + counter + "/" + sets);
-            soundSetsComplete.start();
-            index += 2;
+            soundAllSetsComplete.start();
+            index += 3;
             counter = 1;
         } else {
             workoutResult2.setText("Current Set: " + counter + "/" + sets);
-            switch(counter) {
-                case 1:
-                    soundSet1Complete.start();
-                    break;
-                case 2:
-                    soundSet2Complete.start();
-                    break;
-                case 3:
-                    soundSet3Complete.start();
-                    break;
-                case 4:
-                    soundSet4Complete.start();
-                    break;
-                case 5:
-                    soundSet5Complete.start();
-                    break;
-            }
+            soundSetComplete.start();
+
             counter++;
         }
     }

@@ -28,6 +28,7 @@ public class EditExerciseActivity extends AppCompatActivity {
     // private DatabaseReference reference;
     private EditText exerciseName, exerciseRep, exerciseSet, exerciseWeight;
 
+
     String workoutNameTV;
     String exerciseNameTV;
 
@@ -45,6 +46,8 @@ public class EditExerciseActivity extends AppCompatActivity {
 
 
         Button editExercise;
+        Button deleteExercise;
+        deleteExercise = findViewById(R.id.delete_button_exercise);
         final String workoutName;
         final String exerciseId;
         final org.vosk.demo.Exercise exercise = new org.vosk.demo.Exercise();
@@ -124,6 +127,33 @@ public class EditExerciseActivity extends AppCompatActivity {
                 Intent intent = getIntent();
                 String workoutId = intent.getStringExtra("workoutId");
                 reference.child(userID).child("Workout").child(workoutId).child("Exercises").child(exerciseKey).setValue(exercise);
+                intent = new Intent(EditExerciseActivity.this, org.vosk.demo.CreateNewWorkoutActivity.class);
+                intent.putExtra("workoutName", workoutId);
+                startActivity(intent);
+            }
+        });
+
+        deleteExercise.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                String ex1Name =  exerciseName.getText().toString();
+                String ex1Rep = exerciseRep.getText().toString();
+                String ex1Set = exerciseSet.getText().toString();
+                String ex1Weight = exerciseWeight.getText().toString();
+
+                exercise.setExerciseName(ex1Name);
+                exercise.setRepCount(ex1Rep);
+                exercise.setSetCount(ex1Set);
+                exercise.setWeight(ex1Weight);
+
+                user = FirebaseAuth.getInstance().getCurrentUser();
+                reference = FirebaseDatabase.getInstance().getReference("User");
+                userID = user.getUid();
+
+                Intent intent = getIntent();
+                String workoutId = intent.getStringExtra("workoutId");
+                reference.child(userID).child("Workout").child(workoutId).child("Exercises").child(exerciseKey).removeValue();
                 intent = new Intent(EditExerciseActivity.this, org.vosk.demo.CreateNewWorkoutActivity.class);
                 intent.putExtra("workoutName", workoutId);
                 startActivity(intent);
